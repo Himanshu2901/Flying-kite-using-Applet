@@ -1,0 +1,76 @@
+import java.awt.*;
+import java.applet.*;
+
+/*
+ <APPLET CODE="Flyingkite" WIDTH=500 HEIGHT=500>
+ </APPLET>
+*/ 
+public class Flyingkite extends Applet implements Runnable
+{
+    Thread t;
+    int x1=10,y1=1,tx=10,ty=10;
+    public void start()
+    {
+        if(t==null)
+        {
+            t=new Thread(this,"New Thread");
+           t.start();
+        }
+    }
+    public void stop()
+    {
+        if(t!=null)
+        {
+            t=null;//On stop of applet the created thread is destroyed.
+        }
+    }
+
+
+    public void run()
+    {
+        Thread t1=Thread.currentThread();
+        while(t==t1)
+        {
+            repaint();
+            try
+            {
+                Thread.sleep(100);
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+    }
+    public void paint(Graphics g)
+    {   
+        x1 += tx;
+        if(x1 > 1000)
+            tx = -10;
+        if(x1 < 0 )
+            tx = 10;
+        y1 += ty;
+        if(y1 > 300)
+            ty = -10;
+        if(y1 < 0 )
+            ty = 10;
+        g.setColor(Color.green);
+        int x[]={250+x1,300+x1,250+x1,200+x1,250+x1};
+         g.setColor(Color.pink);
+        int y[]={250+y1,300+y1,400+y1,300+y1,250+y1};
+        g.fillPolygon(x,y,5);
+        g.setColor(Color.black);
+        g.drawLine(250+x1,398+y1,250+x1,430+y1);
+        g.drawLine(250+x1,398+y1,220+x1,430+y1);
+        g.drawLine(250+x1,398+y1,280+x1,430+y1);
+        g.drawLine(220+x1,430+y1,280+x1,430+y1);
+        g.setColor(Color.blue);
+        g.drawLine(250+x1,250+y1,250+x1,400+y1);
+        g.drawLine(200+x1,300+y1,300+x1,300+y1);
+        g.setColor(Color.black);
+        g.drawLine(650,750,250+x1,400+y1);
+        setBackground(Color.yellow);
+        
+
+    }
+}
